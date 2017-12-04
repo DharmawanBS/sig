@@ -40,6 +40,18 @@ class Model_group extends CI_Model
         $this->db->delete('group_user');
     }
 
+    function be_leader($id,$group){
+        $this->db->where('user_id',$id);
+        $this->db->where('group_id',$group);
+        $this->db->delete('group_leader');
+
+        $data = array(
+            'user_id' => $id,
+            'group_id' => $group
+        );
+        $this->db->insert('group_leader',$data);
+    }
+
     function find_group($id){
         $this->db->select('*');
         $this->db->where('group_id',$id);

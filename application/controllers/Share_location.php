@@ -10,6 +10,7 @@ require_once APPPATH.'/libraries/JWT.php';
 
 /**
  * @property Model_group $Model_group
+ * @property Model_user $Model_user
  */
 
 class Share_location extends REST_Controller
@@ -17,7 +18,7 @@ class Share_location extends REST_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('Model_group'));
+        $this->load->model(array('Model_group','Model_user'));
         $this->middle = new Middle();
         $this->middle->access();
         $this->middle->date_time();

@@ -192,7 +192,7 @@ class Group extends REST_Controller
                 REST_Controller::HTTP_NOT_FOUND);
         }
         else {
-            $this->Model_group->left($this->id, $group_id);
+            $this->Model_group->be_leader($this->id, $group_id);
             $this->response(
                 $this->middle->output(
                     MSG_OK,
