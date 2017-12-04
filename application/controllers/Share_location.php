@@ -111,6 +111,12 @@ class Share_location extends REST_Controller
                 'loc_longitude' => $longitude
             );
             $this->Model_group->save_location($data);
+            $this->response(
+                $this->middle->output(
+                    MSG_OK,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
         }
     }
 }
