@@ -56,7 +56,7 @@ class Share_location extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $output_query = $this->Model_group->get_location($group_id);
@@ -100,7 +100,7 @@ class Share_location extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $data = array(

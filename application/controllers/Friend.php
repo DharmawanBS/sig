@@ -81,7 +81,7 @@ class Friend extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
 
         $output_query = $this->Model_friend->find_user($user_name);
@@ -117,7 +117,7 @@ class Friend extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $data = array();
@@ -152,7 +152,7 @@ class Friend extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $this->Model_friend->un_friend($this->id, $friend);

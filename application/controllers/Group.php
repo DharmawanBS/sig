@@ -103,7 +103,7 @@ class Group extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $output_query = $this->Model_group->find_group($group_id);
@@ -140,7 +140,7 @@ class Group extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $data = array(
@@ -167,7 +167,7 @@ class Group extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $this->Model_group->left($this->id, $group_id);
@@ -189,7 +189,7 @@ class Group extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $this->Model_group->be_leader($this->id, $group_id);

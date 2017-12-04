@@ -40,7 +40,7 @@ class User extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $id = $this->Model_user->login($user_name,$user_password);
@@ -52,7 +52,7 @@ class User extends REST_Controller
                             MSG_OK,
                             $token
                         ),
-                        REST_Controller::HTTP_NOT_FOUND);
+                        REST_Controller::HTTP_OK);
                 }
                 else {
                     $date = new DateTime();
@@ -88,7 +88,7 @@ class User extends REST_Controller
                         MSG_FAILED,
                         NULL
                     ),
-                    REST_Controller::HTTP_NOT_FOUND);
+                    REST_Controller::HTTP_OK);
             }
         }
     }
@@ -162,7 +162,7 @@ class User extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             if ($this->Model_user->not_valid($user_name)) {
@@ -171,7 +171,7 @@ class User extends REST_Controller
                         MSG_FAILED,
                         NULL
                     ),
-                    REST_Controller::HTTP_NOT_FOUND);
+                    REST_Controller::HTTP_OK);
             }
             else {
                 $this->response(
@@ -179,7 +179,7 @@ class User extends REST_Controller
                         MSG_OK,
                         NULL
                     ),
-                    REST_Controller::HTTP_NOT_FOUND);
+                    REST_Controller::HTTP_OK);
             }
         }
     }
@@ -196,7 +196,7 @@ class User extends REST_Controller
                     MSG_INVALID,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
         else {
             $data = array(
@@ -212,7 +212,7 @@ class User extends REST_Controller
                     MSG_OK,
                     NULL
                 ),
-                REST_Controller::HTTP_NOT_FOUND);
+                REST_Controller::HTTP_OK);
         }
     }
 }
