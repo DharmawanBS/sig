@@ -63,7 +63,7 @@ class Share_location extends REST_Controller
             if ($output_query) {
                 $location = array();
                 foreach($output_query as $item) {
-                    $item->is_leader = $this->Model_group->is_leader($item->group_id,$this->id);
+                    $item->is_leader = $this->Model_group->is_leader($item->group_id,$item->user_id);
                     array_push($location,$item);
                 }
                 $this->response(

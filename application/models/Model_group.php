@@ -84,7 +84,7 @@ class Model_group extends CI_Model
     }
 
     function get_location($group){
-        $this->db->select('u.user_photo,u.user_display_name,gsl.*');
+        $this->db->select('u.user_id,u.user_display_name,u.user_photo,gsl.*');
         $this->db->where('gsl.group_id',$group);
         $this->db->where('gsl.user_id = u.user_id');
         $this->db->order_by('gsl.loc_datetime','DESC');
