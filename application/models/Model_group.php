@@ -139,9 +139,10 @@ class Model_group extends CI_Model
         $this->db->insert_batch('location_save',$data);
     }
 
-    function get_save($id){
+    function get_save($id,$travel=null){
         $this->db->select('travel_id,travel_title,travel_datetime');
         $this->db->where('user_id',$id);
+        if(!is_null(($travel))) $this->db->where('travel_id',$travel);
         $query = $this->db->get('save_travel');
         $result = $query->result();
 

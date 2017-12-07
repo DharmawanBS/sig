@@ -168,12 +168,14 @@ class Share_location extends REST_Controller
         }
     }
 
-    function get_loc2_get()
+    function get_loc2_post()
     {
-        $output_query = $this->Model_group->get_save($this->id);
+        $travel_id = $this->input->post('travel');
+        if (!$this->middle->mandatory($travel_id)) $travel_id = null;
+        $output_query = $this->Model_group->get_save($this->id,$travel_id);
         if ($output_query) {
             $save = array();
-            foreach($output_query as $item) {
+            foreach ($output_query as $item) {
                 $output_location = $this->Model_group->get_location2($item->travel_id);
                 if ($output_location) {
                     $location = array();
@@ -185,7 +187,7 @@ class Share_location extends REST_Controller
                     $location = null;
                 }
                 $item->location = $location;
-                array_push($save,$item);
+                array_push($save, $item);
             }
             $this->response(
                 $this->middle->output(
