@@ -43,7 +43,8 @@ class Model_friend extends CI_Model
     function is_friend($id,$user_id){
         $this->db->where('user_main',$id);
         $this->db->where('user_friend',$user_id);
-        return $this->db->count_all_results('friend');
+        if ($this->db->count_all_results('friend') > 0) return true;
+        return false;
     }
 
     function be_friend($data){

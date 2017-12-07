@@ -119,4 +119,88 @@ class Share_location extends REST_Controller
                 REST_Controller::HTTP_OK);
         }
     }
+
+    function save_loc_post()
+    {
+        $group_id = $this->input->post('group');
+        $title = $this->input->post('title');
+
+        if (!$this->middle->mandatory($group_id) ||
+            !$this->middle->mandatory($title)) {
+            $this->response(
+                $this->middle->output(
+                    MSG_INVALID,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+        else {
+            $id = $this->Model_user->generate_id('save_travel','travel_id');
+            $data = array(
+                'travel_id' => $id,
+                'travel_title' => $title,
+                'travel_datetime' => $this->date_time,
+                'user_id' => $this->id
+            );
+            $this->Model_group->save_travel($data);
+
+            $output_query = $this->Model_group->get_location($group_id);
+            if ($output_query) {
+                $location = array();
+                foreach ($output_query as $item) {
+                    $temp = array(
+                        'travel_id' => $id,
+                        'user_id' => $item->user_id,
+                        'loc_datetime' => $item->loc_datetime,
+                        'loc_latitude' => $item->loc_latitude,
+                        'loc_longitude' => $item->loc_longitude
+                    );
+                    array_push($location, $temp);
+                }
+                $this->Model_group->save_location2($location);
+            }
+            $this->response(
+                $this->middle->output(
+                    MSG_OK,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+    }
+
+    function get_loc2_get()
+    {
+        $output_query = $this->Model_group->get_save($this->id);
+        if ($output_query) {
+            $save = array();
+            foreach($output_query as $item) {
+                $output_location = $this->Model_group->get_location2($item->travel_id);
+                if ($output_location) {
+                    $location = array();
+                    foreach ($output_location as $item_loc) {
+                        array_push($location, $item_loc);
+                    }
+                }
+                else {
+                    $location = null;
+                }
+                $item->location = $location;
+                array_push($save,$item);
+            }
+            $this->response(
+                $this->middle->output(
+                    MSG_OK,
+                    $save
+                ),
+                REST_Controller::HTTP_OK);
+        }
+        else {
+            $this->response(
+                $this->middle->output(
+                    MSG_EMPTY,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+    }
 }

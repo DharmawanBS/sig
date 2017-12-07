@@ -72,8 +72,23 @@ class Model_user extends CI_Model
         return FALSE;
     }
 
-    function not_valid($username){
+    function not_valid($username,$id = null){
         $this->db->where('user_name',$username);
+        if (!is_null($id)) $this->db->where('user_id !=',$id);
         return $this->db->count_all_results('user');
+    }
+
+    function generate_id($table,$table_id){
+        $this->db->select($table_id);
+        $this->db->order_by($table_id,'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get($table);
+        $result = $query->result();
+
+        if (sizeof($result) > 0) {
+            $out = $result[0];
+            return ($out->$table_id)+1;
+        }
+        return 1;
     }
 }

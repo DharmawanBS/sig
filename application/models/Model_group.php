@@ -19,6 +19,10 @@ class Model_group extends CI_Model
         $this->date = date("Y-m-d");
     }
 
+    function insert($data){
+        $this->db->insert('group',$data);
+    }
+
     function get($id){
         $this->db->select('g.*');
         $this->db->where('gu.user_id',$id);
@@ -50,6 +54,19 @@ class Model_group extends CI_Model
             'group_id' => $group
         );
         $this->db->insert('group_leader',$data);
+    }
+
+    function find_id($group_name){
+        $this->db->select('group_id');
+        $this->db->where('group_name',$group_name);
+        $query = $this->db->get('group');
+        $result = $query->result();
+
+        if (sizeof($result) > 0) {
+            $out = $result[0];
+            return $out->group_id;
+        }
+        return FALSE;
     }
 
     function find_group($id){
@@ -112,5 +129,36 @@ class Model_group extends CI_Model
         $this->db->where('group_id',$group);
         if ($this->db->count_all_results('group_leader') > 0) return true;
         return false;
+    }
+
+    function save_travel($data){
+        $this->db->insert('save_travel',$data);
+    }
+
+    function save_location2($data){
+        $this->db->insert_batch('location_save',$data);
+    }
+
+    function get_save($id){
+        $this->db->select('travel_id,travel_title,travel_datetime');
+        $this->db->where('user_id',$id);
+        $query = $this->db->get('save_travel');
+        $result = $query->result();
+
+        if (sizeof($result) > 0) return $result;
+        return FALSE;
+    }
+
+    function get_location2($travel){
+        $this->db->select('u.user_id,u.user_display_name,u.user_photo,ls.*');
+        $this->db->where('ls.travel_id',$travel);
+        $this->db->where('ls.user_id = u.user_id');
+        $this->db->order_by('ls.loc_datetime','DESC');
+        $this->db->order_by('u.user_display_name','DESC');
+        $query = $this->db->get('user u,location_save ls');
+        $result = $query->result();
+
+        if (sizeof($result) > 0) return $result;
+        return FALSE;
     }
 }

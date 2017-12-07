@@ -96,8 +96,8 @@ class Group extends REST_Controller
 
     function find_group_post()
     {
-        $group_id = $this->input->post('group');
-        if (!$this->middle->mandatory($group_id)) {
+        $group_name = $this->input->post('group');
+        if (!$this->middle->mandatory($group_name)) {
             $this->response(
                 $this->middle->output(
                     MSG_INVALID,
@@ -106,19 +106,30 @@ class Group extends REST_Controller
                 REST_Controller::HTTP_OK);
         }
         else {
-            $output_query = $this->Model_group->find_group($group_id);
-            if ($output_query) {
-                $group = array();
-                foreach ($output_query as $item) {
-                    $item['is_joined'] = $this->Model_group->is_joined($this->id, $group_id);
-                    array_push($group, $item);
+            $group_id = $this->Model_group->find_id($group_name);
+            if ($group_id) {
+                $output_query = $this->Model_group->find_group($group_id);
+                if ($output_query) {
+                    $group = array();
+                    foreach ($output_query as $item) {
+                        $item['is_joined'] = $this->Model_group->is_joined($this->id, $group_id);
+                        array_push($group, $item);
+                    }
+                    $this->response(
+                        $this->middle->output(
+                            MSG_OK,
+                            $group
+                        ),
+                        REST_Controller::HTTP_OK);
                 }
-                $this->response(
-                    $this->middle->output(
-                        MSG_OK,
-                        $group
-                    ),
-                    REST_Controller::HTTP_OK);
+                else {
+                    $this->response(
+                        $this->middle->output(
+                            MSG_EMPTY,
+                            NULL
+                        ),
+                        REST_Controller::HTTP_OK);
+                }
             }
             else {
                 $this->response(
@@ -193,6 +204,34 @@ class Group extends REST_Controller
         }
         else {
             $this->Model_group->be_leader($this->id, $group_id);
+            $this->response(
+                $this->middle->output(
+                    MSG_OK,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+    }
+
+    function create_group_post()
+    {
+        $name = $this->input->post('name');
+        if (!$this->middle->mandatory($name)) {
+            $this->response(
+                $this->middle->output(
+                    MSG_INVALID,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+        else {
+            $data = array(
+                'group_id' => $this->Model_user->generate_id('group','group_id'),
+                'group_name' => $name,
+                'group_create_datetime' => $this->date_time,
+                'group_create_by' => $this->id
+            );
+            $this->Model_group->insert($data);
             $this->response(
                 $this->middle->output(
                     MSG_OK,

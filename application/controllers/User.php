@@ -93,6 +93,70 @@ class User extends REST_Controller
         }
     }
 
+    function register_post()
+    {
+        $user_name = $this->input->post('username');
+        $user_password = $this->input->post('password');
+        $user_display_name = $this->input->post('name');
+
+        if (!$this->middle->mandatory($user_name) || !$this->middle->mandatory($user_password) || !$this->middle->mandatory($user_display_name) || $this->Model_user->not_valid($user_name)) {
+            $this->response(
+                $this->middle->output(
+                    MSG_INVALID,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+        else {
+            $data = array(
+                'user_id' => $this->Model_user->generate_id('user','user_id'),
+                'user_name' => $user_name,
+                'user_password' => md5($user_password),
+                'user_reg_datetime' => $this->date_time,
+                'user_display_name' => $user_display_name
+            );
+
+            $this->Model_user->insert($data);
+            $this->response(
+                $this->middle->output(
+                    MSG_OK,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+    }
+
+    function check_username_post()
+    {
+        $user_name = $this->input->post('username');
+        if (!$this->middle->mandatory($user_name)) {
+            $this->response(
+                $this->middle->output(
+                    MSG_INVALID,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+        else {
+            if ($this->Model_user->not_valid($user_name)) {
+                $this->response(
+                    $this->middle->output(
+                        MSG_FAILED,
+                        NULL
+                    ),
+                    REST_Controller::HTTP_OK);
+            }
+            else {
+                $this->response(
+                    $this->middle->output(
+                        MSG_OK,
+                        NULL
+                    ),
+                    REST_Controller::HTTP_OK);
+            }
+        }
+    }
+
     function auth()
     {
         if ($this->token == NULL) {
@@ -153,44 +217,14 @@ class User extends REST_Controller
         }
     }
 
-    function check_username_post()
+    function edit_profil_post()
     {
-        $user_name = $this->input->post('username');
-        if (!$this->middle->mandatory($user_name)) {
-            $this->response(
-                $this->middle->output(
-                    MSG_INVALID,
-                    NULL
-                ),
-                REST_Controller::HTTP_OK);
-        }
-        else {
-            if ($this->Model_user->not_valid($user_name)) {
-                $this->response(
-                    $this->middle->output(
-                        MSG_FAILED,
-                        NULL
-                    ),
-                    REST_Controller::HTTP_OK);
-            }
-            else {
-                $this->response(
-                    $this->middle->output(
-                        MSG_OK,
-                        NULL
-                    ),
-                    REST_Controller::HTTP_OK);
-            }
-        }
-    }
-
-    function register_post()
-    {
+        $this->auth();
         $user_name = $this->input->post('username');
         $user_password = $this->input->post('password');
         $user_display_name = $this->input->post('name');
 
-        if (!$this->middle->mandatory($user_name) || !$this->middle->mandatory($user_password) || !$this->middle->mandatory($user_display_name) || $this->Model_user->not_valid($user_name)) {
+        if (!$this->middle->mandatory($user_name) || !$this->middle->mandatory($user_password) || !$this->middle->mandatory($user_display_name) || $this->Model_user->not_valid($user_name,$this->id)) {
             $this->response(
                 $this->middle->output(
                     MSG_INVALID,
@@ -202,11 +236,38 @@ class User extends REST_Controller
             $data = array(
                 'user_name' => $user_name,
                 'user_password' => md5($user_password),
-                'user_reg_datetime' => $this->date_time,
                 'user_display_name' => $user_display_name
             );
 
-            $this->Model_user->insert($data);
+            $this->Model_user->update($this->id,$data);
+            $this->response(
+                $this->middle->output(
+                    MSG_OK,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+    }
+
+    function edit_status_post()
+    {
+        $this->auth();
+        $status = $this->input->post('status');
+
+        if (!$this->middle->mandatory($status)) {
+            $this->response(
+                $this->middle->output(
+                    MSG_INVALID,
+                    NULL
+                ),
+                REST_Controller::HTTP_OK);
+        }
+        else {
+            $data = array(
+                'user_last_status' => $status
+            );
+
+            $this->Model_user->update($this->id,$data);
             $this->response(
                 $this->middle->output(
                     MSG_OK,
