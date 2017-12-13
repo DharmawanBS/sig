@@ -108,15 +108,21 @@ class User extends REST_Controller
                 REST_Controller::HTTP_OK);
         }
         else {
+            $idnya = $this->Model_user->generate_id('user','user_id');
             $data = array(
-                'user_id' => $this->Model_user->generate_id('user','user_id'),
+                'user_id' => $idnya,
                 'user_name' => $user_name,
                 'user_password' => md5($user_password),
                 'user_reg_datetime' => $this->date_time,
                 'user_display_name' => $user_display_name
             );
+            $temp = array(
+                'user_id' => $idnya,
+                'group_id' => 1,
+                'datetime' => $this->date_time
+            );
 
-            $this->Model_user->insert($data);
+            $this->Model_user->insert($data,$temp);
             $this->response(
                 $this->middle->output(
                     MSG_OK,

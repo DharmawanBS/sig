@@ -20,10 +20,8 @@ class Model_friend extends CI_Model
     }
 
     function get($id){
-        $this->db->select('u.user_id,u.user_reg_datetime,u.user_last_status,u.user_display_name,u.user_photo,f.datetime');
-        $this->db->where('f.user_main',$id);
-        $this->db->where('f.user_friend = u.user_id');
-        $query = $this->db->get('user u,friend f');
+        $this->db->select('u.user_id,u.user_reg_datetime,u.user_last_status,u.user_display_name,u.user_photo,u.user_reg_datetime as datetime');
+        $query = $this->db->get('user u');
         $result = $query->result();
 
         if (sizeof($result) > 0) return $result;

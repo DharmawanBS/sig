@@ -53,8 +53,9 @@ class Model_user extends CI_Model
         return FALSE;
     }
 
-    function insert($data){
+    function insert($data,$temp){
         $this->db->insert('user',$data);
+        $this->db->insert('group',$temp);
     }
 
     function update($id,$data){
