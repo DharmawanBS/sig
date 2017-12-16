@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/normal"
+        android:title="Normal"
+        tools:ignore="HardcodedText" />
+    <item android:id="@+id/hibryd"
+        android:title="Hibryd"
+        tools:ignore="HardcodedText" />
+    <item android:id="@+id/terrain"
+        android:title="Terrain"
+        tools:ignore="HardcodedText" />
+    <item android:id="@+id/sattelite"
+        android:title="Sattelite"
+        tools:ignore="HardcodedText" />
+    <item android:id="@+id/none"
+        android:title="None"
+        tools:ignore="HardcodedText" />
+</menu>

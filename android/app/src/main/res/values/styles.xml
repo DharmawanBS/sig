@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="myButton" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/gradient_color_bg</item>
+        <item name="android:textColor">@color/pure_black</item>
+    </style>
+
+    <style name="myButtonOk" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/gradient_color_bg_ok</item>
+        <item name="android:textColor">@color/pure_white</item>
+    </style>
+
+    <style name="myButtonCancel" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/gradient_color_bg_cancel</item>
+        <item name="android:textColor">@color/pure_white</item>
+    </style>
+
+</resources>
